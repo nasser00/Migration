@@ -1,0 +1,26 @@
+from rsf.proj import *
+
+freq=float(ARGUMENTS.get('freq',30)) 
+Flow('spike',None,'spike n1=901 n2=1 k1=8 k2=1 o1=0 d=0.004 ')
+Flow('wavelet','spike','ai2refl | ricker1 frequency=%g' % freq)
+
+Flow('vel','velocity.su',
+     '''
+    segyread su=y endian=0 |
+put d1=5 o1=0|
+put d2=10 o2=0
+     ''')
+
+Flow('dmig_prestack_SS','data vel wavelet', 
+     '''
+    prestack_split_step  fmin=2 fmax=35 iswavelet=0
+     velfile=${SOURCES[1]}
+    source_wavelet=${SOURCES[2]}
+   ''')
+Plot('dmig_prestack_SS','grey scalebar=y label1="Depth" unit1="m" label2="Distance" unit2="m" title="Pre-stack Migrated Image" wanttitle=y')
+
+Plot('vel','grey color=j allpos=y bias=1.5 scalebar=y barreverse=y label1="Depth" unit1="m" label2="Distance" unit2="m" title="Velocity Model" wanttitle=y')
+
+
+Result('results','vel dmig_prestack_SS','SideBySideAniso')
+End()

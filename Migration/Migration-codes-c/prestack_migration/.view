@@ -1,0 +1,8 @@
+[?1034hscons: Reading SConscript files ...
+scons: done reading SConscript files.
+scons: Building targets ...
+/home/kazemino/rsf/bin/sfspike n1=901 n2=1 k1=8 k2=1 o1=0 d=0.004 > spike.rsf
+< spike.rsf /home/kazemino/rsf/bin/sfai2refl | /home/kazemino/rsf/bin/sfricker1 frequency=30 > wavelet.rsf
+< sub_data.rsf /home/kazemino/rsf/bin/sfprestack_split_step fmin=2 fmax=35 iswavelet=1 velfile=velocity.rsf source_wavelet=wavelet.rsf > dmig_prestack_SS.rsf
+< dmig_prestack_SS.rsf /home/kazemino/rsf/bin/sfgrey scalebar=y > dmig_prestack_SS.vpl
+scons: building terminated because of errors.
